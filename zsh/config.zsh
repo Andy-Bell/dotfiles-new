@@ -9,9 +9,9 @@ export CLICOLOR=true
 
 export TIME_STYLE=long-iso
 
-fpath=($ZSH/zsh/functions $fpath)
+fpath=($LOCAL_ZSH/zsh/functions $fpath)
 
-autoload -U $ZSH/zsh/functions/*(:t)
+autoload -U $LOCAL_ZSH/zsh/functions/*(:t)
 
 HISTFILE=~/.zsh_history
 HISTSIZE=30000

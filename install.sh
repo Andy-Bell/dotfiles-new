@@ -13,8 +13,12 @@ echo -e "\nℹ️  Downloading required software using Homebrew"
 brew bundle --file=./brew/Brewfile
 
 # Set shell correctly
-chsh -s /usr/local/bin/zsh $USER
-sudo dscl . -create /Users/$USER UserShell /usr/local/bin/zsh
+echo -e "\n⚠️  Do you wish to set your shell to the brew-managed zsh [y/n]: "
+read user_response
+if [ "$user_response" == "y" ]; then
+  chsh -s /usr/local/bin/zsh $USER
+  sudo dscl . -create /Users/$USER UserShell /usr/local/bin/zsh
+fi
 
 DIR=$(pwd)
 SCRIPTS_DIR="$DIR/scripts"
@@ -25,7 +29,7 @@ cd ~
 # Begin Symlinks
 echo "Linking dotfiles..."
 
-LINKS='zshrc
+LINKS='zshrc.dotfiles
 gitconfig
 gitignore
 tmux.conf
