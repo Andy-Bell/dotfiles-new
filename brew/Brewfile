@@ -28,6 +28,7 @@ cask "font-comic-shanns-mono-nerd-font"
 brew "ruby-install"
 brew "chruby"
 brew "go"
+cask "1password-cli"
 
 # terminal 
 brew "tmux"

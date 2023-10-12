@@ -940,6 +940,12 @@
         "options": {
           "full_name": "font-comic-shanns-mono-nerd-font"
         }
+      },
+      "1password-cli": {
+        "version": "2.21.0",
+        "options": {
+          "full_name": "1password-cli"
+        }
       }
     },
     "vscode": {
