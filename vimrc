@@ -1,0 +1,252 @@
+set nocompatible " Required by vundle
+
+"set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+" alternatively, pass a path where Vundle should install plugins
+"call vundle#begin('~/some/path/here')
+
+" let Vundle manage Vundle, required
+Plugin 'gmarik/Vundle.vim'
+
+" The following are examples of different formats supported.
+" Keep Plugin commands between vundle#begin/end.
+" plugin on GitHub repo
+Plugin 'mileszs/ack.vim'
+Plugin 'kien/ctrlp.vim'
+Plugin 'tpope/vim-surround'
+Plugin 'elixir-editors/vim-elixir'
+Plugin 'tpope/vim-fugitive'
+Plugin 'takac/vim-hardtime'
+Plugin 'altercation/vim-colors-solarized'
+Plugin 'https://github.com/rust-lang/rust.vim'
+Plugin 'https://github.com/scrooloose/syntastic'
+Plugin 'tpope/vim-endwise'
+Plugin 'https://github.com/vim-scripts/REPL-plugin'
+Plugin 'Align'
+Plugin 'toyamarinyon/vim-swift'
+Plugin 'thoughtbot/vim-rspec'
+Plugin 'rodjek/vim-puppet'
+Plugin 'https://github.com/fatih/vim-go'
+Plugin 'https://github.com/kchmck/vim-coffee-script.git'
+Plugin 'https://github.com/leafgarland/typescript-vim'
+
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
+" To ignore plugin indent changes, instead use:
+"filetype plugin on
+"
+" Brief help
+" :PluginList          - list configured plugins
+" :PluginInstall(!)    - install (update) plugins
+" :PluginSearch(!) foo - search (or refresh cache first) for foo
+" :PluginClean(!)      - confirm (or auto-approve) removal of unused plugins
+"
+" see :h vundle for more details or wiki for FAQ
+" Put your non-Plugin stuff after this line
+
+set background=dark
+colorscheme solarized
+let g:solarized_termtrans = 1
+let g:solarized_visibility = "high"
+let g:solarized_contrast = "high"
+
+set      noswapfile
+set      nobackup
+syntax   on
+set      nocp
+filetype plugin on
+
+let g:ctrlp_clear_cache_on_exit=0
+
+
+set ruler
+set relativenumber
+set showmatch
+set showcmd
+set ignorecase
+set ttyfast
+set lazyredraw
+set colorcolumn=80
+set tabstop=4
+set shiftwidth=4
+set expandtab
+set nowrap
+set hlsearch
+
+let g:ausession=".vimsession"
+
+"mother fucking makefiles
+autocmd FileType make setlocal noexpandtab
+autocmd FileType go setlocal noexpandtab
+
+function! TwoSpace()
+  setlocal ts=2
+  setlocal sw=2
+endfunction
+
+function! OpenSpec()
+  let repl = substitute(substitute(expand('%'), '\.rb', '', ''), "lib/", "spec/", "")
+  let path = repl . '_spec.rb'
+  exec('tabe ' . path)
+endfunction
+
+
+function! RunLastFailure()
+  exec('!bundle exec rspec --next-failure')
+endfunction
+
+function! VsplitSpec()
+  let repl = substitute(substitute(substitute(expand('%'), '\.rb', '', ''), "lib/", "spec/", ""), "app/", "spec/", "")
+  let path = repl . '_spec.rb'
+  let folder = fnamemodify(path, ":p:h")
+  echom folder
+  silent exec('!mkdir -p ' . folder)
+  exec('vsplit ' . path)
+endfunction
+
+au FileType ruby call TwoSpace()
+au FileType coffee call TwoSpace()
+au FileType vim call TwoSpace()
+au FileType typescript call TwoSpace()
+au FileType javascript call TwoSpace()
+au FileType proto set noexpandtab
+au BufNewFile,BufRead *.erb call TwoSpace()
+au BufRead,BufNewFile *.go set filetype=go
+
+set list
+set listchars=tab:→\ ,trail:☃
+
+
+let g:rspec_command = "!bundle exec rspec {spec}"
+
+map <leader>jca      :!bundle exec cucumber --no-color<CR>
+map <leader>jra      :call RunAllSpecs()<CR>
+map <leader>jrf      :call RunCurrentSpecFile()<CR>
+map <leader>jrn      :call RunNearestSpec()<CR>
+map <leader>jrl      :call RunLastSpec()<CR>
+map <leader>jr!      :call RunLastFailure()<CR>
+map <leader>jna      :!nosetests <CR>
+map <leader>jnf      :!nosetests %<CR>
+map <leader>jma      :!ruby test/test_helper.rb <CR>
+map <leader>jmf      :!bundle exec ruby % <CR>
+map <leader>jta      :!./script/test<CR>
+map <leader>jmf      :!ruby %<CR>
+map <leader>rpf      :!python3 % <CR>
+map <leader>rrf      :!bundle exec ruby %<CR>
+map <leader>rb       :!bash <CR>
+map <leader>rv       :so ~/.vimrc <CR>
+map <leader>rm       :!touch % && make <CR>
+map <leader>rc       :!ctags -R<CR>
+map <leader>cr      :!cargo run<CR>
+map <leader>cb      :!bash -c 'cargo build 2>&1 \| head -n 10'<CR>
+map <leader>ct      :!cargo test<CR>
+map <leader>eir      o<ESC>ogem "rspec-core", :github => "rspec/rspec-core"<CR>gem "rspec-expectations", :github => "rspec/rspec-expectations"<CR>gem "rspec-mocks", :github => "rspec/rspec-mocks"<CR>gem "rspec-support", :github => "rspec/rspec-support"<CR><ESC>
+map <leader>eipr     o<ESC>ogem "rspec-core", :path => "/Users/sam/dev/rspec/rspec-dev/repos/rspec-core"<CR>gem "rspec-expectations", :path => "/Users/sam/dev/rspec/rspec-dev/repos/rspec-expectations"<CR>gem "rspec-mocks", :path => "/Users/sam/dev/rspec/rspec-dev/repos/rspec-mocks"<CR>gem "rspec-support", :path => "/Users/sam/dev/rspec/rspec-dev/repos/rspec-support"<CR><ESC>
+map <leader>eid      orequire 'pry'; binding.pry<ESC>
+map <leader>li       gg/def.*init<CR>
+map <leader>lcd      gg/class.*<CR>
+map <leader>lrp      /^ *p <CR>
+map <leader>arp      :Ack "^ *p " <CR>
+map <leader>apr      :Ack "binding.pry " <CR>
+map <leader>eal      :Align & <CR>
+map <leader>eap      :Align => <CR>
+map <leader>edc      mzO<ESC>j:s/,/,\r/g<CR>(%i<CR><ESC>%a<CR><ESC>(%=%:%s/ *$//g<CR>:noh<CR>'zkdd
+map <leader>ecl      :silent! %s/\[x\]/\[ \]/g<CR>gg
+map <leader>eae      :Align =<CR>
+map <leader>ea{      :Align {<CR>
+map <leader>erf      i.fetchlr{r(f]r)
+map <leader>erh      xea:llxxx
+map <leader>epl      :PromoteToLet<cr>
+map <leader>etw      mp:%s/ *$//g<CR>:noh<CR>'p
+map <leader>ert      :%s/\t/    /g<CR>
+map <leader>orf      :call OpenSpec()<CR>
+map <leader>orv      :call VsplitSpec()<CR>
+map <leader>onrv     :call VsplitSpec()<CR>irequire "spec_helper"<CR><ESC>
+map <leader>ors      :tabe .rspec<CR>
+map <leader>ogf      :tabe Gemfile<CR>
+map <leader>ovr      :tabe ~/.vimrc<CR>/map.*leader<CR>:noh<CR>
+map <leader>bi       :!bundle install<CR>
+map <leader>ft       zfat
+map <leader>uft      zR
+map <leader>gt       :!go test -tags=integration -ldflags -s ./...<CR>
+map <leader>gb       :GoBuild<CR>
+map <leader>snp      :set nopaste<CR>
+map <leader>sp       :set paste<CR>
+map <leader><space>  :noh<CR>
+imap <esc>           <esc>:w<CR>
+
+nnoremap <leader>h <Esc>:call ToggleHardMode()<CR>
+
+set incsearch
+set vb
+
+map <C-s> <esc>:w<CR>
+imap <C-s> <esc>:w<CR>
+
+map  <up>    <nop>
+map  <down>  <nop>
+map  <left>  <nop>
+map  <right> <nop>
+imap <up>    <nop>
+imap <down>  <nop>
+imap <left>  <nop>
+imap <right> <nop>
+
+
+command! Q  q  " Bind :Q  to :q
+command! W  w  " Bind :W  to :w
+command! Wq wq " Bind :Wq to :wq
+command! WQ wq " Bind :WQ to :wq
+
+command E Ex
+
+set backspace=indent,eol,start
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" RENAME CURRENT FILE
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function! RenameFile()
+  let old_name = expand('%')
+  let new_name = input('New file name: ', expand('%'), 'file')
+  if new_name != '' && new_name != old_name
+    exec ':saveas ' . new_name
+    exec ':silent !rm ' . old_name
+    redraw!
+  endif
+endfunction
+map <leader>n :call RenameFile()<cr>
+
+vmap <C-c><C-c> <Plug>SendSelectionToTmux
+nmap <C-c><C-c> <Plug>NormalModeSendToTmux
+nmap <C-c>r <Plug>SetTmuxVars
+
+set background=dark
+
+map j gj
+map k gk
+
+autocmd FileType markdown set textwidth=80
+autocmd FileType markdown set spell
+autocmd FileType markdown set colorcolumn=81
+autocmd FileType markdown hi ColorColumn ctermbg=4
+autocmd FileType markdown set tabstop=2
+map <leader>y "*y
+
+
+" Use the old vim regex engine (version 1, as opposed to version 2, which was
+" introduced in Vim 7.3.969). The Ruby syntax highlighting is significantly
+" slower with the new regex engine.
+set re=1
+let g:syntastic_mode_map = { 'passive_filetypes': ['python', 'css', 'scss', 'sass', 'haml'] }
+let g:ctrlp_max_files=0
+let g:go_fmt_command = "goimports"
+
+if executable("rg")
+  set grepprg=rg\ --vimgrep\ --no-heading
+  set grepformat=%f:%l:%c:%m,%f:%l:%m
+endif
+
+let g:ackprg = 'rg --vimgrep --no-heading'
+let g:ctrlp_custom_ignore = 'node_modules\|venv\|git\|deps\/\|priv\/\|_build\/'

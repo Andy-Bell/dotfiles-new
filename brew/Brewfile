@@ -1,0 +1,55 @@
+# taps needed
+tap "hashicorp/tap"
+tap "heroku/brew"
+tap "homebrew/bundle"
+tap "homebrew/cask-fonts"
+tap "homebrew/services"
+tap "jesseduffield/lazygit"
+
+# core tasks
+brew "circleci"
+brew "eksctl"
+brew "helm"
+brew "jq"
+brew "k9s"
+brew "kubernetes-cli"
+brew "hashicorp/tap/terraform"
+brew "hashicorp/tap/vault"
+brew 'awscli'
+cask 'aws-vpn-client'
+
+# local cluster tools
+brew "kind"
+brew "podman"
+brew "qemu"
+cask "font-comic-shanns-mono-nerd-font"
+
+# local dev env
+brew "ruby-install"
+brew "chruby"
+brew "go"
+
+# terminal 
+brew "tmux"
+brew "zsh"
+brew "starship"
+
+# extra helpers
+brew "lazydocker"
+brew "berkeley-db", link: true
+brew "tig"
+brew "jesseduffield/lazygit/lazygit"
+
+# vs-code extensions
+vscode "CircleCI.circleci"
+vscode "hashicorp.terraform"
+vscode "ms-azuretools.vscode-docker"
+vscode "ms-kubernetes-tools.vscode-kubernetes-tools"
+vscode "ms-python.python"
+vscode "ms-python.vscode-pylance"
+vscode "ms-vscode.powershell"
+vscode "nopjmp.fairyfloss"
+vscode "redhat.vscode-yaml"
+vscode "rust-lang.rust-analyzer"
+vscode "shd101wyy.markdown-preview-enhanced"
+vscode "Shopify.ruby-lsp"
