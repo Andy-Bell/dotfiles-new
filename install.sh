@@ -23,31 +23,9 @@ fi
 DIR=$(pwd)
 SCRIPTS_DIR="$DIR/scripts"
 
-# Go to the home directory
-cd ~
 
 # Begin Symlinks
 echo "Linking dotfiles..."
-
-LINKS='zshrc.dotfiles
-gitconfig
-gitignore
-tmux.conf
-starship.toml
-vimrc'
-
-echo
-for L in $LINKS; do
-  # check if the LINK exists, back up the existing version
-  if [[ -e ".$L" ]]; then
-	echo "Backing up .$L"
-	mv ".$L" ".$L.backup"
-  fi
-
-  echo "Linking .$L"
-  ln -s "$DIR/$L" ".$L"
-done
-echo
 
 if [ ! -d "$SCRIPTS_DIR" ]; then
   echo "Error: The 'scripts' directory does not exist."
@@ -75,3 +53,26 @@ for script in "${SCRIPTS[@]}"; do
   "./$script"            # Execute the script
   echo "Finished executing '$script'."
 done
+
+# Go to the home directory
+cd ~
+
+LINKS='zshrc
+gitconfig
+gitignore
+tmux.conf
+starship.toml
+vimrc'
+
+echo
+for L in $LINKS; do
+  # check if the LINK exists, back up the existing version
+  if [[ -e ".$L" ]]; then
+    echo "Backing up .$L"
+    mv ".$L" ".$L.backup"
+  fi
+
+  echo "Linking .$L"
+  ln -s "$DIR/$L" ".$L"
+done
+echo
